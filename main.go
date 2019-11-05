@@ -86,7 +86,5 @@ func main() {
 
 
     e.GET("/", hello)
-    
-    
     e.Logger.Fatal(e.Start(":1323"))
 }
