@@ -1,8 +1,8 @@
 package main
 
 import (
-	"api/handler"
-
+    "api/handler"
+    
     "net/http"
     "github.com/labstack/echo"
     "github.com/labstack/echo/middleware"
@@ -17,8 +17,8 @@ func main() {
 
     // Middleware
 	e.Use(middleware.Logger())
-	e.Use(middleware.Recover())
-	e.Use(handler.BasicAuth())
+    e.Use(middleware.Recover())
+    e.Use(handler.BasicAuth())
 
     e.GET("/", hello)
     e.Logger.Fatal(e.Start(":1323"))

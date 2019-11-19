@@ -1,7 +1,7 @@
 package handler
 
 import (
-    "github.com/labstack/echo/middleware"
+	"github.com/labstack/echo/middleware"
     "github.com/labstack/echo"
 )
 
