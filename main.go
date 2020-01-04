@@ -21,21 +21,24 @@ func main() {
     e.Use(handler.BasicAuth())
     e.Static("/assets", "public/assets")
 
-
+    // public 
     e.File("/", "public/index.html")
     e.File("/signup", "public/signup.html")
     e.POST("/signup", handler.Signup)
     e.File("/login", "public/login.html")
     e.POST("/login", handler.Login)
 
-
+    // private()
     api := e.Group("/api")
     api.Use(middleware.JWTWithConfig(handler.Config))
-    api.GET("/todos", handler.GetTodos)
-    api.POST("/todos", handler.AddTodo)
-    api.DELETE("/todos/:id", handler.DeleteTodo)
-    api.PUT("/todos/:id/completed", handler.UpdateTodo)
+    api.GET("/problems", handler.GetProblems)
+    api.POST("/problems", handler.AddProbxlems)
+    api.GET("/problems/:id", handler.GetProblemHome)
+    api.GET("/problems/:id/statement", handler.GetProblemStatement)
+    api.GET("/problems/:id/submit", handler.GetProblemSubmit)
+    api.POST("/problems/:id/submit", handler.AddProblemSubmit)
+    api.GET("/problems/:id/question", handler.GetProblemQuestion)
+    api.POST("/problems/:id/question", handler.AddProblemQuestion)
 
-    e.GET("/", hello)
     e.Logger.Fatal(e.Start(":1323"))
 }
