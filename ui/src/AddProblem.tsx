@@ -1,14 +1,13 @@
-// TypeScriptを使うのだ!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 import React, { useState, useCallback } from 'react';
 import styled from "styled-components";
 
-interface User {
-    firstName: string;
-    lastName: string;
+interface Problem {
+    ProblemTitle: string;
+    ProblemDescription: string;
 }
 
 // Componentのstyleを直接いじるのは、JSでどうしても動的に変化させたい時だけと言う信念
-// Styled-Componentを使います
+// Styled-Componentを使います
 const Host = styled.div`
     margin-top: 10px;
 `;
@@ -18,22 +17,22 @@ const Content = styled.div`
 `;
 
 // React hooks を使いFCコンポーネントへと
-const AddPerson = () => {
+const AddProblem = () => {
 
     // Userの構造体が増えるたびにStateが増えるのはクソなのでUserObjectにまとめる
-    const [newUser, setNewUser] = useState<User>({ firstName: '', lastName: '' })
+    const [newProblem, setNewProblem] = useState<Problem>({ ProblemTitle: '', ProblemDescription: '' })
 
     // memorizeします
     // https://ja.reactjs.org/docs/hooks-reference.html#usecallback
     const postDataHandler = useCallback(
         // async/await構文を用います
         async () => {
-            // axiosで全然問題ないです
+            // axiosでも問題ないです
             const response = await fetch(
-                "https://rest-api-example-go.herokuapp.com/people",
+                "http://127.0.0.1:8080",
                 {
                     method: "POST",
-                    body: JSON.stringify(newUser)
+                    body: JSON.stringify(newProblem)
                 }
             )
             console.log(response);
@@ -41,42 +40,42 @@ const AddPerson = () => {
             window.location.reload();
         },
         // newUserをdependenciesに追加することをわすれずに！
-        [newUser],
+        [newProblem],
     );
 
     // memorizeします
     // https://ja.reactjs.org/docs/hooks-reference.html#usecallback
-    const changeFirstNameHandler = useCallback(
+    const changeProblemTitleHandler = useCallback(
         (e: React.ChangeEvent<HTMLInputElement>) => {
             e.persist();
-            setNewUser(x => ({ ...x, firstName: e.target.value }));
+            setNewProblem(x => ({ ...x, ProblemTitle: e.target.value }));
         },
         // React は再レンダー間で dispatch 関数の同一性が保たれ、変化しないことを保証します。従って useEffect や useCallback の依存リストにはこの関数を含めないでも構いません。(公式より)
         [],
     );
 
-    const changeLastNameHandler = useCallback(
+    const changeProblemDescriptionHandler = useCallback(
         (e: React.ChangeEvent<HTMLInputElement>) => {
             e.persist();
-            setNewUser(x => ({ ...x, lastName: e.target.value }));
+            setNewProblem(x => ({ ...x, ProblemDescription: e.target.value }));
         },
         [],
     );
 
     return (
         <Host>
-            <h1>Add a new person</h1>
+            <h1>Add a new problem</h1>
             <Content className="col-lg-8 offset-lg-2">
                 <div className="form-group">
-                    First Name: <input type="text" className="form-control" value={newUser.firstName} onChange={changeFirstNameHandler}/>
+                    Problem Name: <input type="text" className="form-control" value={newProblem.ProblemTitle} onChange={changeProblemTitleHandler}/>
                 </div>
                 <div className="form-group">
-                    Last Name: <input type="text" className="form-control" value={newUser.lastName} onChange={changeLastNameHandler}/>
+                    Problem Description: <input type="text" className="form-control" value={newProblem.ProblemDescription} onChange={changeProblemDescriptionHandler}/>
                 </div>
-                <button className="btn btn-success btn-block" onClick={postDataHandler}><i className="fa fa-plus"></i> Add Person</button>
+                <button className="btn btn-success btn-block" onClick={postDataHandler}><i className="fa fa-plus"></i> Add Problem</button>
             </Content>
         </Host>
     );
 }
 
-export default AddPerson;
+export default AddProblem;
