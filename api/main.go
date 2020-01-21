@@ -8,6 +8,7 @@ import (
 	"github.com/gin-gonic/contrib/sessions"
 	//"github.com/gin-gonic/contrib/static"
 	"github.com/gin-gonic/gin"
+	"github.com/gin-contrib/cors"
 )
 
 const (
@@ -24,11 +25,16 @@ func main() {
 
 func router() *gin.Engine {
 	r := gin.New()
+
+	// CORS 対応
+    config := cors.DefaultConfig()
+    config.AllowOrigins = []string{"http://sample.com"}
+	r.Use(cors.New(config))
+	
 	// public
 	r.Use(sessions.Sessions("mysession", sessions.NewCookieStore([]byte("secret"))))
 	r.POST("/login", login)
 	r.GET("/logout", logout)
-	r.Static("/public", "./public")
 	/*
 		r.GET("/ping", handler.pong)
 		r.Static("/", "public/index.html")

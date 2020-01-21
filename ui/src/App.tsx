@@ -10,14 +10,23 @@ import {
 import Container from '@material-ui/core/Container';
 //import Box from '@material-ui/core/Box';
 import AddProblem from './AddProblem';
+import AppBar from './AppBar';
+import { CssBaseline } from '@material-ui/core';
+import Login from './Login';
+
 
 export default function App() {
   return (
     <Router>
-      <div>
+      <CssBaseline />
+      <AppBar />
+      <Container maxWidth="sm">
         <ul>
           <li>
             <Link to="/">Home</Link>
+          </li>
+          <li>
+            <Link to="/login">Login</Link>
           </li>
           <li>
             <Link to="/problems">Problem</Link>
@@ -26,7 +35,7 @@ export default function App() {
             <Link to="/addproblem">AddProblem</Link>
           </li>
         </ul>
-
+        
         <Switch>
           <Route path="/problems">
             <Problems />
@@ -34,11 +43,14 @@ export default function App() {
           <Route path="/addproblem">
             <AddProblem />
           </Route>
+          <Route path="/login">
+            <Login />
+          </Route>
           <Route path="/">
             <Home />
           </Route>
         </Switch>
-      </div>
+      </Container>
     </Router>
   );
 }
