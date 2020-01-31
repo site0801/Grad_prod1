@@ -30,7 +30,7 @@ const Login = () => {
         async () => {
             // axiosでも問題ないです
             const response = await fetch(
-                "http://127.0.0.1:8080/login",
+                "http://localhost:1234/login",
                 {
                     method: "POST",
                     body: JSON.stringify(newLoginStatus)
@@ -41,7 +41,7 @@ const Login = () => {
             window.location.reload();
         },
         // newUserをdependenciesに追加することをわすれずに！
-        [newLoginStatus],
+        [newLoginStatus]
     );
 
     // memorizeします
@@ -65,13 +65,13 @@ const Login = () => {
 
     return (
         <Host>
-            <h1>Add a new problem</h1>
+            <h1>Login</h1>
             <Content className="col-lg-8 offset-lg-2">
                 <div className="form-group">
-                    Problem Name: <input type="text" className="form-control" value={newLoginStatus.username} onChange={changeUserNameHandler}/>
+                    User Name: <input type="text" className="form-control" value={newLoginStatus.username} onChange={changeUserNameHandler}/>
                 </div>
                 <div className="form-group">
-                    Problem Description: <input type="text" className="form-control" value={newLoginStatus.password} onChange={changePasswordHandler}/>
+                    Password: <input type="text" className="form-control" value={newLoginStatus.password} onChange={changePasswordHandler}/>
                 </div>
                 <button className="btn btn-success btn-block" onClick={postDataHandler}><i className="fa fa-plus"></i> Add Problem</button>
             </Content>

@@ -1,0 +1,29 @@
+version: "3"
+services:
+  ui:
+    build: ./docker/ui
+    volumes:
+      - ./ui:/var/www/html/
+    working_dir: /var/www/html/qpn
+    command: yarn start
+    ports:
+      - "3000:3000"
+  db:
+    image: mariadb
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: p4ssw0rd
+      MYSQL_PASSWORD: p4ssw0rd
+      MYSQL_DATABASE: qpn
+    volumes:
+      - ./db:/var/lib/mysql
+    ports:
+      - "3306:3306"
+  api:
+    build: ./docker/api
+    volumes:
+      - ./api:/go/src/qpn
+  nginx:
+    build: ./docker/nginx
+    ports:
+      - "1234:1234"

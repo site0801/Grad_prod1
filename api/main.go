@@ -1,128 +1,71 @@
 package main
 
 import (
-	"log"
 	"net/http"
-	"strings"
+	"time"
 
-	"github.com/gin-gonic/contrib/sessions"
-	//"github.com/gin-gonic/contrib/static"
-	"github.com/gin-contrib/cors"
-	"github.com/gin-gonic/gin"
+	"github.com/dgrijalva/jwt-go"
+	"github.com/labstack/echo"
+	"github.com/labstack/echo/middleware"
 )
 
-const (
-	userkey = "user"
-)
+func login(c echo.Context) error {
+	username := c.FormValue("username")
+	password := c.FormValue("password")
+
+	// Throws unauthorized error
+	if username != "jon" || password != "shhh!" {
+		return echo.ErrUnauthorized
+	}
+
+	// Create token
+	token := jwt.New(jwt.SigningMethodHS256)
+
+	// Set claims
+	claims := token.Claims.(jwt.MapClaims)
+	claims["name"] = "Jon Snow"
+	claims["admin"] = true
+	claims["exp"] = time.Now().Add(time.Hour * 72).Unix()
+
+	// Generate encoded token and send it as response.
+	t, err := token.SignedString([]byte("secret"))
+	if err != nil {
+		return err
+	}
+
+	return c.JSON(http.StatusOK, map[string]string{
+		"token": t,
+	})
+}
+
+func accessible(c echo.Context) error {
+	return c.String(http.StatusOK, "Accessible")
+}
+
+func restricted(c echo.Context) error {
+	user := c.Get("user").(*jwt.Token)
+	claims := user.Claims.(jwt.MapClaims)
+	name := claims["name"].(string)
+	return c.String(http.StatusOK, "Welcome "+name+"!")
+}
 
 func main() {
-	r := router()
-	r.Use(gin.Logger())
-	
-	if err := router().Run(":8080"); err != nil {
-		log.Fatal("Unable to start:", err)
-	}
-}
+	e := echo.New()
 
-func router() *gin.Engine {
-	r := gin.New()
-	// CORS 対応
-	config := cors.DefaultConfig()
-	config.AllowOrigins = []string{"*"}
-	r.Use(cors.New(config))
-	// public
-	r.Use(sessions.Sessions("mysession", sessions.NewCookieStore([]byte("secret"))))
-	r.POST("/login", login)
-	r.GET("/logout", logout)
-	/*
-		r.GET("/ping", handler.pong)
-		r.Static("/", "public/index.html")
-		r.Static("/signup", "public/signup.html")
-		r.POST("/signup", handler.Signup)
-		r.Static("/login", "public/login.html")
-		r.POST("/login", handler.Login)
-	*/
+	// Middleware
+	e.Use(middleware.Logger())
+	e.Use(middleware.Recover())
 
-	private := r.Group("/private")
-	private.Use(AuthRequired)
-	{
-		private.GET("/me", me)
-		private.GET("/status", status)
-		/*
-			private.GET("/problems", handler.GetProblems)
-			private.POST("/problems", handler.AddProbxlems)
-			private.GET("/problems/:id", handler.GetProblemHome)
-			private.GET("/problems/:id/statement", handler.GetProblemStatement)
-			private.GET("/problems/:id/submit", handler.GetProblemSubmit)
-			private.POST("/problems/:id/submit", handler.AddProblemSubmit)
-			private.GET("/problems/:id/question", handler.GetProblemQuestion)
-			private.POST("/problems/:id/question", handler.AddProblemQuestion)
-		*/
-	}
-	return r
-}
+	// Login route
+	e.POST("/login", login)
 
-// AuthRequired is a simple middleware to check the session
-func AuthRequired(c *gin.Context) {
-	session := sessions.Default(c)
-	user := session.Get(userkey)
-	if user == nil {
-		// Abort the request with the appropriate error code
-		c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
-		return
-	}
-	// Continue down the chain to handler etc
-	c.Next()
-}
+	// Unauthenticated route
+	e.GET("/", accessible)
 
-// login is a handler that parses a form and checks for specific data
-func login(c *gin.Context) {
-	session := sessions.Default(c)
-	username := c.PostForm("username")
-	password := c.PostForm("password")
+	// Restricted group
+	r := e.Group("/restricted")
+	r.Use(middleware.JWT([]byte("secret")))
+	r.GET("", restricted)
 
-	// Validate form input
-	if strings.Trim(username, " ") == "" || strings.Trim(password, " ") == "" {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Parameters can't be empty"})
-		return
-	}
-
-	// Check for username and password match, usually from a database
-	if username != "hello" || password != "itsme" {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "Authentication failed"})
-		return
-	}
-
-	// Save the username in the session
-	session.Set(userkey, username) // In real world usage you'd set this to the users ID
-	if err := session.Save(); err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to save session"})
-		return
-	}
-	c.JSON(http.StatusOK, gin.H{"message": "Successfully authenticated user"})
-}
-
-func logout(c *gin.Context) {
-	session := sessions.Default(c)
-	user := session.Get(userkey)
-	if user == nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid session token"})
-		return
-	}
-	session.Delete(userkey)
-	if err := session.Save(); err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to save session"})
-		return
-	}
-	c.JSON(http.StatusOK, gin.H{"message": "Successfully logged out"})
-}
-
-func me(c *gin.Context) {
-	session := sessions.Default(c)
-	user := session.Get(userkey)
-	c.JSON(http.StatusOK, gin.H{"user": user})
-}
-
-func status(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{"status": "You are logged in"})
+	e.Logger.Fatal(e.Start(":1323"))
 }

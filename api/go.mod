@@ -12,10 +12,12 @@ require (
 	github.com/appleboy/gofight/v2 v2.1.1
 	github.com/boj/redistore v0.0.0-20180917114910-cd5dcc76aeff // indirect
 	github.com/buger/jsonparser v0.0.0-20181115193947-bf1c66bbce23
+	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/gin-contrib/cors v1.3.0 // indirect
 	github.com/gin-gonic/contrib v0.0.0-20190526021735-7fb7810ed2a0
 	github.com/gin-gonic/gin v1.4.0
 	github.com/gorilla/sessions v1.2.0 // indirect
+	github.com/labstack/echo v3.3.10+incompatible
 	github.com/sergi/go-diff v1.0.0 // indirect
 	golang.org/x/oauth2 v0.0.0-20200107190931-bf48bf16ab8d // indirect
 )
