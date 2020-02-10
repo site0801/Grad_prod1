@@ -1,0 +1,15 @@
+import React from "react";
+
+
+
+const [signInState, setSignInState] = React.useState<User>({ username: '', password: '' });
+export const AuthContext = React.createContext({ signInState, setSignInState });
+
+const Auth = () => {
+    const [signInState, setSignInState] = React.useState<User>({ username: '', password: '' });
+    return (
+        <AuthContext.Provider value={{ signInState, setSignInState }} />
+    )
+}
+
+export default Auth;

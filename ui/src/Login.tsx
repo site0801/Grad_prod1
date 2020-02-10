@@ -1,7 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import styled from "styled-components";
 
-
 interface User {
     username: string;
     password: string;
@@ -22,7 +21,7 @@ const Login = () => {
 
     // Userの構造体が増えるたびにStateが増えるのはクソなのでUserObjectにまとめる
     const [newLoginStatus, setNewLoginStatus] = useState<User>({ username: '', password: '' })
-
+    
     // memorizeします
     // https://ja.reactjs.org/docs/hooks-reference.html#usecallback
     const postDataHandler = useCallback(
@@ -30,7 +29,7 @@ const Login = () => {
         async () => {
             // axiosでも問題ないです
             const response = await fetch(
-                "http://localhost:1234/login",
+                "http://localhost:1323/login",
                 {
                     method: "POST",
                     body: JSON.stringify(newLoginStatus)
@@ -38,7 +37,7 @@ const Login = () => {
             )
             console.log(response);
             alert("Successfully Authentication!");
-            window.location.reload();
+            //window.location.reload();
         },
         // newUserをdependenciesに追加することをわすれずに！
         [newLoginStatus]
