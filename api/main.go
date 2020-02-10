@@ -3,18 +3,36 @@ package main
 import (
 	"net/http"
 	"time"
+	"fmt"
 
 	"github.com/dgrijalva/jwt-go"
-	"github.com/labstack/echo"
-	"github.com/labstack/echo/middleware"
+	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 )
 
+type Response struct {
+    Status  int
+    Message string
+}
+
+type User struct {
+	Username string `json:"username"`
+	Password string `json:"password"`
+}
+
 func login(c echo.Context) error {
-	username := c.FormValue("username")
-	password := c.FormValue("password")
+
+	param := new(User)
+	if err := c.Bind(param); err != nil {
+		print(param.Username)
+        return err
+    }
+
+	print("username:" + param.Username);
+	print("password:" + param.Password);
 
 	// Throws unauthorized error
-	if username != "jon" || password != "shhh!" {
+	if param.Username != "jon" || param.Password != "shhh" {
 		return echo.ErrUnauthorized
 	}
 
@@ -49,6 +67,11 @@ func restricted(c echo.Context) error {
 	return c.String(http.StatusOK, "Welcome "+name+"!")
 }
 
+func bodyDumpHandler(c echo.Context, reqBody, resBody []byte) {
+	fmt.Printf("Request Body: %v\n", string(reqBody))
+	fmt.Printf("Response Body: %v\n", string(resBody))
+}
+
 func main() {
 	e := echo.New()
 
@@ -59,6 +82,7 @@ func main() {
 		AllowOrigins: []string{"http://localhost:3000"},
 		AllowMethods: []string{http.MethodGet, http.MethodPut, http.MethodPost, http.MethodDelete},
 	}))
+	e.Use(middleware.BodyDump(bodyDumpHandler))
 
 	// Login route
 	e.POST("/login", login)

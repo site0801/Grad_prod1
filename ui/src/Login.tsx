@@ -31,6 +31,7 @@ const Login = () => {
             const response = await fetch(
                 "http://localhost:1323/login",
                 {
+                    headers: {'Content-type':'application/json'},
                     method: "POST",
                     body: JSON.stringify(newLoginStatus)
                 }
