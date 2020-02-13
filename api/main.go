@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
-	handler "handler/handler"
+	"test/handler"
 
 	"github.com/dgrijalva/jwt-go"
 	"github.com/labstack/echo/v4"

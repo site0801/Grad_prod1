@@ -9,9 +9,10 @@ import (
 	"github.com/labstack/echo/v4"
 
 	_ "github.com/go-sql-driver/mysql"
-
 	_ "github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
+
+	"test/domain"
 )
 
 //フロントから持ってくるデータ
@@ -21,7 +22,7 @@ type InputUser struct {
 }
 
 func Login(c echo.Context) error {
-	var user User
+	var user domain.User
 	//フロントからjsonを受け取って処理
 	param := new(InputUser)
 	if err := c.Bind(param); err != nil {
