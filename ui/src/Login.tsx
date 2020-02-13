@@ -36,6 +36,7 @@ const Login = () => {
                     body: JSON.stringify(newLoginStatus)
                 }
             )
+            
             console.log(response);
             alert("Successfully Authentication!");
             //window.location.reload();
