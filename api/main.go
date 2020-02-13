@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
-	_ "handler/handler"
+	handler "handler/handler"
 
 	"github.com/dgrijalva/jwt-go"
 	"github.com/labstack/echo/v4"
@@ -38,8 +38,7 @@ func bodyDumpHandler(c echo.Context, reqBody, resBody []byte) {
 
 func main() {
 	e := echo.New()
-	var db = ConnectGorm()
-	db.AutoMigrate(&User{}, &Problem{}, &Answers{})
+	handler.InitGorm()
 
 	// Middleware
 	e.Use(middleware.Logger())
@@ -51,7 +50,7 @@ func main() {
 	e.Use(middleware.BodyDump(bodyDumpHandler))
 
 	// Login route
-	e.POST("/login", Login)
+	e.POST("/login", handler.Login)
 
 	// Unauthenticated route
 	e.GET("/", accessible)
