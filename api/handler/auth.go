@@ -21,13 +21,40 @@ type InputUser struct {
 	Password string `json:"password"`
 }
 
-func Login(c echo.Context) error {
+func SignUp(c echo.Context) error {
 	var user domain.User
 	//フロントからjsonを受け取って処理
 	param := new(InputUser)
 	if err := c.Bind(param); err != nil {
 		print(param.Username)
 		return err
+	}
+
+	var db = ConnectGorm()
+	db.LogMode(true)
+	defer db.Close()
+
+	////デバッグ用
+	//print("username:" + param.Username);
+	//print("password:" + param.Password);
+
+	////UsernameのDB取得
+	var response = db.Where("name = ?", param.Username).First(&user)
+	fmt.Println(response)
+	if response != nil {
+		return
+	}
+
+	return c.JSON(http.StatusOK, map[string]string{})
+}
+
+func Login(c echo.Context) error {
+	var user domain.User
+	//フロントからjsonを受け取って処理
+	param := new(InputUser)
+	if err := c.Bind(param); err != nil {
+		print(param.Username)
+		return echo.Err
 	}
 
 	var db = ConnectGorm()
