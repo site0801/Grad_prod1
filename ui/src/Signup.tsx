@@ -17,10 +17,10 @@ const Content = styled.div`
 `;
 
 // React hooks を使いFCコンポーネントへと
-const Login = () => {
+const Signup = () => {
 
     // Userの構造体が増えるたびにStateが増えるのはクソなのでUserObjectにまとめる
-    const [newLoginStatus, setNewLoginStatus] = useState<User>({ username: '', password: '' })
+    const [newSignupStatus, setNewSignupStatus] = useState<User>({ username: '', password: '' })
     
     // memorizeします
     // https://ja.reactjs.org/docs/hooks-reference.html#usecallback
@@ -29,11 +29,11 @@ const Login = () => {
         async () => {
             // axiosでも問題ないです
             const response = await fetch(
-                "http://localhost:1323/login",
+                "http://localhost:1323/signup",
                 {
                     headers: {'Content-type':'application/json'},
                     method: "POST",
-                    body: JSON.stringify(newLoginStatus)
+                    body: JSON.stringify(newSignupStatus)
                 }
             )
             
@@ -42,7 +42,7 @@ const Login = () => {
             //window.location.reload();
         },
         // newUserをdependenciesに追加することをわすれずに！
-        [newLoginStatus]
+        [newSignupStatus]
     );
 
     // memorizeします
@@ -50,7 +50,7 @@ const Login = () => {
     const changeUserNameHandler = useCallback(
         (e: React.ChangeEvent<HTMLInputElement>) => {
             e.persist();
-            setNewLoginStatus(x => ({ ...x, username: e.target.value }));
+            setNewSignupStatus(x => ({ ...x, username: e.target.value }));
         },
         // React は再レンダー間で dispatch 関数の同一性が保たれ、変化しないことを保証します。従って useEffect や useCallback の依存リストにはこの関数を含めないでも構いません。(公式より)
         [],
@@ -59,25 +59,25 @@ const Login = () => {
     const changePasswordHandler = useCallback(
         (e: React.ChangeEvent<HTMLInputElement>) => {
             e.persist();
-            setNewLoginStatus(x => ({ ...x, password: e.target.value }));
+            setNewSignupStatus(x => ({ ...x, password: e.target.value }));
         },
         [],
     );
 
     return (
         <Host>
-            <h1>Login</h1>
+            <h1>Signup</h1>
             <Content className="col-lg-8 offset-lg-2">
                 <div className="form-group">
-                    User Name: <input type="text" className="form-control" value={newLoginStatus.username} onChange={changeUserNameHandler}/>
+                    User Name: <input type="text" className="form-control" value={newSignupStatus.username} onChange={changeUserNameHandler}/>
                 </div>
                 <div className="form-group">
-                    Password: <input type="text" className="form-control" value={newLoginStatus.password} onChange={changePasswordHandler}/>
+                    Password: <input type="text" className="form-control" value={newSignupStatus.password} onChange={changePasswordHandler}/>
                 </div>
-                <button className="btn btn-success btn-block" onClick={postDataHandler}><i className="fa fa-plus"></i> Login</button>
+                <button className="btn btn-success btn-block" onClick={postDataHandler}><i className="fa fa-plus"></i> Signup</button>
             </Content>
         </Host>
     );
 }
 
-export default Login;
+export default Signup;

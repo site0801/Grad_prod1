@@ -41,9 +41,14 @@ func SignUp(c echo.Context) error {
 	////UsernameのDB取得
 	var response = db.Where("name = ?", param.Username).First(&user)
 	fmt.Println(response)
-	if response != nil {
-		return
-	}
+	//if response != nil {
+	//	return echo.NewHTTPError(http.StatusUnauthorized, "The credentials entered are invalid.")
+	//}
+
+	var signup = domain.User{Username: param.Username, Password: param.Password, Roll: "student"}
+	db.NewRecord(signup)
+	db.Create(&signup)
+	db.NewRecord(signup)
 
 	return c.JSON(http.StatusOK, map[string]string{})
 }
@@ -54,7 +59,7 @@ func Login(c echo.Context) error {
 	param := new(InputUser)
 	if err := c.Bind(param); err != nil {
 		print(param.Username)
-		return echo.Err
+		return err
 	}
 
 	var db = ConnectGorm()
@@ -65,7 +70,7 @@ func Login(c echo.Context) error {
 	//print("password:" + param.Password);
 
 	////UsernameのDB取得
-	var response = db.Where("name = ?", param.Username).First(&user)
+	var response = db.Where("Username = ?", param.Username).First(&user)
 	fmt.Println(response)
 
 	// Throws unauthorized error
@@ -78,7 +83,7 @@ func Login(c echo.Context) error {
 
 	// Set claims
 	claims := token.Claims.(jwt.MapClaims)
-	claims["name"] = "Jon Snow"
+	claims["name"] = param.Username
 	claims["admin"] = true
 	claims["exp"] = time.Now().Add(time.Hour * 72).Unix()
 

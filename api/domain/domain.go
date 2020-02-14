@@ -9,7 +9,6 @@ import (
 //gorm-テーブル
 type User struct {
 	gorm.Model
-	id       uint `gorm:"primary_key"`
 	Username string
 	Password string
 	Roll     string

@@ -51,6 +51,7 @@ func main() {
 
 	// Login route
 	e.POST("/login", handler.Login)
+	e.POST("/signup", handler.SignUp)
 
 	// Unauthenticated route
 	e.GET("/", accessible)

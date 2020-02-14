@@ -13,6 +13,7 @@ import AddProblem from './AddProblem';
 import AppBar from './AppBar';
 import { CssBaseline } from '@material-ui/core';
 import Login from './Login';
+import Signup from './Signup';
 
 
 export default function App() {
@@ -27,6 +28,9 @@ export default function App() {
           </li>
           <li>
             <Link to="/login">Login</Link>
+          </li>
+          <li>
+            <Link to="/signup">Signup</Link>
           </li>
           <li>
             <Link to="/problems">Problem</Link>
@@ -45,6 +49,9 @@ export default function App() {
           </Route>
           <Route path="/login">
             <Login />
+          </Route>
+          <Route path="/signup">
+            <Signup />
           </Route>
           <Route path="/">
             <Home />
