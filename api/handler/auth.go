@@ -70,11 +70,12 @@ func Login(c echo.Context) error {
 	//print("password:" + param.Password);
 
 	////UsernameのDB取得
-	var response = db.Where("Username = ?", param.Username).First(&user)
-	fmt.Println(response)
+
+	db.Where("Username = ?", param.Username).First(&user)
+	fmt.Println(user.Username)
 
 	// Throws unauthorized error
-	if param.Username != "jon" || param.Password != "shhh" {
+	if param.Username != user.Username || param.Password != user.Password {
 		return echo.ErrUnauthorized
 	}
 
