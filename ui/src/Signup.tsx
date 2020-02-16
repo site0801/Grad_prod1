@@ -67,6 +67,7 @@ const Signup = () => {
     return (
         <Host>
             <h1>Signup</h1>
+            <hr></hr>
             <Content className="col-lg-8 offset-lg-2">
                 <div className="form-group">
                     User Name: <input type="text" className="form-control" value={newSignupStatus.username} onChange={changeUserNameHandler}/>

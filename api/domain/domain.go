@@ -16,16 +16,16 @@ type User struct {
 
 type Problem struct {
 	gorm.Model
-	prob_id       uint `gorm:"primary_key"`
-	title         string
-	prob_sentence string
-	author_id     uint
-	category      string
+	Title         string
+	Prob_sentence string
+	Author_id     uint
+	Category      string
+	Status        string
 }
 
 type Answers struct {
 	gorm.Model
-	prob_id      uint `gorm:"primary_key"`
+	prob_id      uint
 	author_id    uint
 	ans_sentence string
 }

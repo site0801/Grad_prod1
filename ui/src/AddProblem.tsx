@@ -1,11 +1,16 @@
 import React, { useState, useCallback } from 'react';
 import styled from "styled-components";
-
+import jwt_decode from 'jwt-decode';
 
 interface Problem {
     ProblemTitle: string;
     ProblemDescription: string;
+    ProblemCategory: string;
 }
+
+//interface jwt {
+//
+//}
 
 // Componentのstyleを直接いじるのは、JSでどうしても動的に変化させたい時だけと言う信念
 // Styled-Componentを使います
@@ -21,7 +26,15 @@ const Content = styled.div`
 const AddProblem = () => {
 
     // Userの構造体が増えるたびにStateが増えるのはクソなのでUserObjectにまとめる
-    const [newProblem, setNewProblem] = useState<Problem>({ ProblemTitle: '', ProblemDescription: '' })
+    const [newProblem, setNewProblem] = useState<Problem>({ ProblemTitle: '', ProblemDescription: '', ProblemCategory: ''})
+
+    if (sessionStorage.getItem("gurupen") !== ''){
+        var token = sessionStorage.getItem("gurupen");
+        var decoded = jwt_decode(token!);
+        
+    }
+
+    
 
     // memorizeします
     // https://ja.reactjs.org/docs/hooks-reference.html#usecallback
@@ -30,15 +43,16 @@ const AddProblem = () => {
         async () => {
             // axiosでも問題ないです
             const response = await fetch(
-                "http://127.0.0.1:8080",
+                "http://127.0.0.1:8080/admin/addproblem",
                 {
+                    headers: {'Content-type':'application/json', 'Authorization':'Bearer '+sessionStorage.getItem("gurupen")},
                     method: "POST",
                     body: JSON.stringify(newProblem)
                 }
             )
             console.log(response);
             alert("Successfully added!");
-            window.location.reload();
+            //window.location.reload();
         },
         // newUserをdependenciesに追加することをわすれずに！
         [newProblem],
@@ -63,15 +77,27 @@ const AddProblem = () => {
         [],
     );
 
+    const changeProblemCategoryHandler = useCallback(
+        (e: React.ChangeEvent<HTMLInputElement>) => {
+            e.persist();
+            setNewProblem(x => ({ ...x, ProblemCategory: e.target.value }));
+        },
+        [],
+    );
+
     return (
         <Host>
             <h1>Add a new problem</h1>
+            <hr></hr>
             <Content className="col-lg-8 offset-lg-2">
                 <div className="form-group">
                     Problem Name: <input type="text" className="form-control" value={newProblem.ProblemTitle} onChange={changeProblemTitleHandler}/>
                 </div>
                 <div className="form-group">
                     Problem Description: <input type="text" className="form-control" value={newProblem.ProblemDescription} onChange={changeProblemDescriptionHandler}/>
+                </div>
+                <div className="form-group">
+                    Category: <input type="text" className="form-control" value={newProblem.ProblemCategory} onChange={changeProblemCategoryHandler}/>
                 </div>
                 <button className="btn btn-success btn-block" onClick={postDataHandler}><i className="fa fa-plus"></i> Add Problem</button>
             </Content>

@@ -35,9 +35,11 @@ const Login = () => {
                     method: "POST",
                     body: JSON.stringify(newLoginStatus)
                 }
-            )
-            
+            ).then(response => response.json())
+            .then(data => window.sessionStorage.setItem('gurupen', data.token)) // then で data にアクセス
+            .catch(error => console.error(error))
             console.log(response);
+            console.log(window.sessionStorage.getItem('gurupen'));
             alert("Successfully Authentication!");
             //window.location.reload();
         },
@@ -67,6 +69,7 @@ const Login = () => {
     return (
         <Host>
             <h1>Login</h1>
+            <hr></hr>
             <Content className="col-lg-8 offset-lg-2">
                 <div className="form-group">
                     User Name: <input type="text" className="form-control" value={newLoginStatus.username} onChange={changeUserNameHandler}/>
