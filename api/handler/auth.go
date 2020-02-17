@@ -21,13 +21,6 @@ type InputUser struct {
 	Password string `json:"password"`
 }
 
-type jwtCustomClaims struct {
-	UserID uint   `json:"userid"`
-	Name   string `json:"name"`
-	Admin  bool   `json:"admin"`
-	jwt.StandardClaims
-}
-
 func SignUp(c echo.Context) error {
 	var user domain.User
 	//フロントからjsonを受け取って処理
@@ -79,23 +72,18 @@ func Login(c echo.Context) error {
 	////UsernameのDB取得
 
 	db.Where("Username = ?", param.Username).First(&user)
-	fmt.Println(user.ID)
-	var userid uint = user.ID
+	//fmt.Println(user.ID)
 	// Throws unauthorized error
 	if param.Username != user.Username || param.Password != user.Password {
 		return echo.ErrUnauthorized
 	}
 
 	// Set claims
-	claims := &jwtCustomClaims{
-		userid,
-		user.Username,
-		true,
-		jwt.StandardClaims{
-			ExpiresAt: time.Now().Add(time.Hour * 72).Unix(),
-		},
-	}
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	token := jwt.New(jwt.SigningMethodHS256)
+	claims := token.Claims.(jwt.MapClaims)
+	claims["name"] = user.Username
+	claims["admin"] = true
+	claims["exp"] = time.Now().Add(time.Hour * 72).Unix()
 
 	// Generate encoded token and send it as response.
 	t, err := token.SignedString([]byte("secret"))

@@ -21,7 +21,7 @@ const Admin = () => {
         async () => {
             // axiosでも問題ないです
             const response = await fetch(
-                "http://localhost:1323/admin",
+                "http://localhost:1323/restricted/problems",
                 {
                     headers: {'Content-type':'application/json','Authorization':'Bearer '+sessionStorage.getItem("gurupen")},
                     method: "GET"

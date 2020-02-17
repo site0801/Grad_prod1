@@ -28,14 +28,6 @@ const AddProblem = () => {
     // Userの構造体が増えるたびにStateが増えるのはクソなのでUserObjectにまとめる
     const [newProblem, setNewProblem] = useState<Problem>({ ProblemTitle: '', ProblemDescription: '', ProblemCategory: ''})
 
-    //if (sessionStorage.getItem("gurupen") !== ''){
-    //    var token = sessionStorage.getItem("gurupen");
-    //    var decoded = jwt_decode(token!);
-    //    JSON.parse(decoded)
-    //}
-
-    
-
     // memorizeします
     // https://ja.reactjs.org/docs/hooks-reference.html#usecallback
     const postDataHandler = useCallback(
@@ -43,9 +35,9 @@ const AddProblem = () => {
         async () => {
             // axiosでも問題ないです
             const response = await fetch(
-                "http://localhost:1323/admin/addproblem",
+                "http://localhost:1323/restricted/addproblem",
                 {
-                    headers: {'Content-type':'application/json', 'Authorization':'Bearer '+sessionStorage.getItem("gurupen")},
+                    headers: {'Content-type':'application/json', 'Authorization':' Bearer '+sessionStorage.getItem("gurupen")},
                     method: "POST",
                     body: JSON.stringify(newProblem)
                 }

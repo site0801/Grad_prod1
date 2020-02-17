@@ -36,7 +36,7 @@ export default function App() {
             <Link to="/problems">Problem</Link>
           </li>
           <li>
-            <Link to="/admin/addproblem">AddProblem</Link>
+            <Link to="/addproblem">AddProblem</Link>
           </li>
         </ul>
         
@@ -47,7 +47,7 @@ export default function App() {
           <Route path="/admin">
             <Admin />
           </Route>
-          <Route path="/admin/addproblem">
+          <Route path="/addproblem">
             <AddProblem />
           </Route>
           <Route path="/login">
