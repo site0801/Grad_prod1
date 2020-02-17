@@ -59,7 +59,8 @@ func main() {
 	// Restricted group
 	r := e.Group("/admin")
 	r.Use(middleware.JWT([]byte("secret")))
-	r.GET("", restricted)
+	r.GET("/admin", restricted)
+	r.GET("/problems", handler.GetProblem)
 	r.POST("/addproblem", handler.AddProblem)
 
 	e.Logger.Fatal(e.Start(":1323"))

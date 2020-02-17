@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import styled from "styled-components";
-import jwt_decode from 'jwt-decode';
+//import jwt_decode from 'jwt-decode';
 
 interface Problem {
     ProblemTitle: string;
@@ -28,11 +28,11 @@ const AddProblem = () => {
     // Userの構造体が増えるたびにStateが増えるのはクソなのでUserObjectにまとめる
     const [newProblem, setNewProblem] = useState<Problem>({ ProblemTitle: '', ProblemDescription: '', ProblemCategory: ''})
 
-    if (sessionStorage.getItem("gurupen") !== ''){
-        var token = sessionStorage.getItem("gurupen");
-        var decoded = jwt_decode(token!);
-        
-    }
+    //if (sessionStorage.getItem("gurupen") !== ''){
+    //    var token = sessionStorage.getItem("gurupen");
+    //    var decoded = jwt_decode(token!);
+    //    JSON.parse(decoded)
+    //}
 
     
 
@@ -43,7 +43,7 @@ const AddProblem = () => {
         async () => {
             // axiosでも問題ないです
             const response = await fetch(
-                "http://127.0.0.1:8080/admin/addproblem",
+                "http://localhost:1323/admin/addproblem",
                 {
                     headers: {'Content-type':'application/json', 'Authorization':'Bearer '+sessionStorage.getItem("gurupen")},
                     method: "POST",
