@@ -1,16 +1,14 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useContext } from 'react';
 import styled from "styled-components";
 //import jwt_decode from 'jwt-decode';
+import {UsernameContext} from "./Totalprovider";
 
 interface Problem {
-    ProblemTitle: string;
-    ProblemDescription: string;
-    ProblemCategory: string;
+    title: string;
+    prob_sentence: string;
+    author_name: string;
+    category: string;
 }
-
-//interface jwt {
-//
-//}
 
 // Componentのstyleを直接いじるのは、JSでどうしても動的に変化させたい時だけと言う信念
 // Styled-Componentを使います
@@ -26,8 +24,8 @@ const Content = styled.div`
 const AddProblem = () => {
 
     // Userの構造体が増えるたびにStateが増えるのはクソなのでUserObjectにまとめる
-    const [newProblem, setNewProblem] = useState<Problem>({ ProblemTitle: '', ProblemDescription: '', ProblemCategory: ''})
-
+    const {UsernameState} = useContext(UsernameContext);
+    const [newProblem, setNewProblem] = useState<Problem>({ title: '', prob_sentence: '', author_name: UsernameState, category: ''})
     // memorizeします
     // https://ja.reactjs.org/docs/hooks-reference.html#usecallback
     const postDataHandler = useCallback(
@@ -55,7 +53,7 @@ const AddProblem = () => {
     const changeProblemTitleHandler = useCallback(
         (e: React.ChangeEvent<HTMLInputElement>) => {
             e.persist();
-            setNewProblem(x => ({ ...x, ProblemTitle: e.target.value }));
+            setNewProblem(x => ({ ...x, title: e.target.value }));
         },
         // React は再レンダー間で dispatch 関数の同一性が保たれ、変化しないことを保証します。従って useEffect や useCallback の依存リストにはこの関数を含めないでも構いません。(公式より)
         [],
@@ -64,7 +62,7 @@ const AddProblem = () => {
     const changeProblemDescriptionHandler = useCallback(
         (e: React.ChangeEvent<HTMLInputElement>) => {
             e.persist();
-            setNewProblem(x => ({ ...x, ProblemDescription: e.target.value }));
+            setNewProblem(x => ({ ...x, prob_sentence: e.target.value }));
         },
         [],
     );
@@ -72,7 +70,7 @@ const AddProblem = () => {
     const changeProblemCategoryHandler = useCallback(
         (e: React.ChangeEvent<HTMLInputElement>) => {
             e.persist();
-            setNewProblem(x => ({ ...x, ProblemCategory: e.target.value }));
+            setNewProblem(x => ({ ...x, category: e.target.value }));
         },
         [],
     );
@@ -83,13 +81,13 @@ const AddProblem = () => {
             <hr></hr>
             <Content className="col-lg-8 offset-lg-2">
                 <div className="form-group">
-                    Problem Name: <input type="text" className="form-control" value={newProblem.ProblemTitle} onChange={changeProblemTitleHandler}/>
+                    Problem Name: <input type="text" className="form-control" value={newProblem.title} onChange={changeProblemTitleHandler}/>
                 </div>
                 <div className="form-group">
-                    Problem Description: <input type="text" className="form-control" value={newProblem.ProblemDescription} onChange={changeProblemDescriptionHandler}/>
+                    Problem Description: <input type="text" className="form-control" value={newProblem.prob_sentence} onChange={changeProblemDescriptionHandler}/>
                 </div>
                 <div className="form-group">
-                    Category: <input type="text" className="form-control" value={newProblem.ProblemCategory} onChange={changeProblemCategoryHandler}/>
+                    Category: <input type="text" className="form-control" value={newProblem.category} onChange={changeProblemCategoryHandler}/>
                 </div>
                 <button className="btn btn-success btn-block" onClick={postDataHandler}><i className="fa fa-plus"></i> Add Problem</button>
             </Content>

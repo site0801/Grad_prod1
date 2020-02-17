@@ -18,7 +18,7 @@ type Problem struct {
 	gorm.Model
 	Title         string
 	Prob_sentence string
-	Author_id     uint
+	Author_name   string
 	Category      string
 	Status        string
 }

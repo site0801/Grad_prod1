@@ -1,5 +1,6 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useContext} from 'react';
 import styled from "styled-components";
+import {UsernameContext} from "./Totalprovider";
 
 interface User {
     username: string;
@@ -21,7 +22,7 @@ const Login = () => {
 
     // Userの構造体が増えるたびにStateが増えるのはクソなのでUserObjectにまとめる
     const [newLoginStatus, setNewLoginStatus] = useState<User>({ username: '', password: '' })
-    
+    const {UsernameState, setUsernameState} = useContext(UsernameContext);
     // memorizeします
     // https://ja.reactjs.org/docs/hooks-reference.html#usecallback
     const postDataHandler = useCallback(
@@ -39,12 +40,13 @@ const Login = () => {
             .then(data => window.sessionStorage.setItem('gurupen', data.token)) // then で data にアクセス
             .catch(error => console.error(error))
             console.log(response);
+            console.log(UsernameState);
             console.log(window.sessionStorage.getItem('gurupen'));
             alert("Successfully Authentication!");
             //window.location.reload();
         },
         // newUserをdependenciesに追加することをわすれずに！
-        [newLoginStatus]
+        [newLoginStatus, UsernameState]
     );
 
     // memorizeします
@@ -53,9 +55,10 @@ const Login = () => {
         (e: React.ChangeEvent<HTMLInputElement>) => {
             e.persist();
             setNewLoginStatus(x => ({ ...x, username: e.target.value }));
+            setUsernameState(() => e.target.value);
         },
         // React は再レンダー間で dispatch 関数の同一性が保たれ、変化しないことを保証します。従って useEffect や useCallback の依存リストにはこの関数を含めないでも構いません。(公式より)
-        [],
+        [setUsernameState],
     );
 
     const changePasswordHandler = useCallback(

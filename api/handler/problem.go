@@ -15,9 +15,9 @@ import (
 type InputProblem struct {
 	ProblemTitle       string `json:"title"`
 	ProblemDescription string `json:"prob_sentence"`
-	ProblemAuthor      uint   `json:"author_id"`
+	ProblemAuthor      string `json:"author_name"`
 	ProblemCategory    string `json:"category"`
-	ProblemStatus      string `json:"status"`
+	//ProblemStatus      string `json:"status"`
 }
 
 func AddProblem(c echo.Context) error {
@@ -44,7 +44,7 @@ func AddProblem(c echo.Context) error {
 	//	return echo.NewHTTPError(http.StatusUnauthorized, "The credentials entered are invalid.")
 	//}
 
-	var addproblem = domain.Problem{Title: param.ProblemTitle, Prob_sentence: param.ProblemDescription, Author_id: param.ProblemAuthor, Category: param.ProblemCategory, Status: "Open"}
+	var addproblem = domain.Problem{Title: param.ProblemTitle, Prob_sentence: param.ProblemDescription, Author_name: param.ProblemAuthor, Category: param.ProblemCategory, Status: "Open"}
 	db.NewRecord(addproblem)
 	db.Create(&addproblem)
 	db.NewRecord(addproblem)
