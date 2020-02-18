@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useContext} from 'react';
 import styled from "styled-components";
-import {UsernameContext} from "./Totalprovider";
+import {LoginContext, UsernameContext} from "./Totalprovider";
 
 interface User {
     username: string;
@@ -23,6 +23,8 @@ const Login = () => {
     // Userの構造体が増えるたびにStateが増えるのはクソなのでUserObjectにまとめる
     const [newLoginStatus, setNewLoginStatus] = useState<User>({ username: '', password: '' })
     const {UsernameState, setUsernameState} = useContext(UsernameContext);
+    const {setLoginState} = useContext(LoginContext);
+
     // memorizeします
     // https://ja.reactjs.org/docs/hooks-reference.html#usecallback
     const postDataHandler = useCallback(
@@ -42,8 +44,11 @@ const Login = () => {
             console.log(response);
             console.log(UsernameState);
             console.log(window.sessionStorage.getItem('gurupen'));
-            alert("Successfully Authentication!");
-            //window.location.reload();
+            if (window.sessionStorage.getItem('gurupen') != null){
+                setLoginState(() => true);
+                alert("Successfully Authentication!");
+                window.location.reload();
+            }
         },
         // newUserをdependenciesに追加することをわすれずに！
         [newLoginStatus, UsernameState]
