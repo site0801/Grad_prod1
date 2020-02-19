@@ -1,15 +1,32 @@
 import React, { useState, useEffect, useContext } from 'react';
 import styled from "styled-components";
 import {UsernameContext} from "./Totalprovider";
+import { makeStyles } from '@material-ui/core/styles';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper';
+
 // Componentのstyleを直接いじるのは、JSでどうしても動的に変化させたい時だけと言う信念
 // Styled-Componentを使います
-const Host = styled.div`
-    margin-top: 10px;
-`;
+// const Host = styled.div`
+//     margin-top: 10px;
+// `;
 
-const Content = styled.div`
-    margin-top:'30px';
-`;
+// const Content = styled.div`
+//     margin-top:'30px';
+// `;
+
+const useStyles = makeStyles({
+    table: {
+    minWidth: 650,
+    },
+});
+
+
 
 interface ServiceInit {
     status: 'init';
@@ -71,22 +88,43 @@ const Problems = () => {
         console.log(DataState);
     },[]);
     console.log(DataState);
+
+    const classes = useStyles();
     
     return (
-        <Host>
+        <TableContainer component={Paper}>
             <h1>Add a new problem</h1>
             <hr></hr>
-            <Content className="col-lg-8 offset-lg-2">
+            <Table className={classes.table} aria-label="simple table">
+                <TableHead>
+                <TableRow>
+                    <TableCell>Title</TableCell>
+                    <TableCell align="right">Author</TableCell>
+                    <TableCell align="right">Status</TableCell>
+                    <TableCell align="right">CreatedAt</TableCell>
+                    <TableCell align="right">UpdatedAt</TableCell>
+                </TableRow>
+                </TableHead>
+                <TableBody>
                 {DataState.status === 'loading' && <div>Loading...</div>}
                 {DataState.status === 'loaded' &&
                     DataState.payload.results.map((problem) => (
-                        <div key={problem.ID}>{problem.Title}</div>
+                        <TableRow key={problem.ID}>
+                        <TableCell component="th" scope="row">
+                            {problem.Title}
+                        </TableCell>
+                        <TableCell align="right">{problem.Author_name}</TableCell>
+                        <TableCell align="right">{problem.Status}</TableCell>
+                        <TableCell align="right">{problem.CreatedAt}</TableCell>
+                        <TableCell align="right">{problem.UpdatedAt}</TableCell>
+                        </TableRow>
                 ))}
                 {DataState.status === 'error' && (
                     <div>Error.</div>
                 )}
-            </Content>
-        </Host>
+                </TableBody>
+            </Table>
+        </TableContainer>
     );
 }
 

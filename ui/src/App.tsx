@@ -22,7 +22,7 @@ export default function App() {
     <Router>
       <CssBaseline />
       <AppBar />
-      <Container maxWidth="sm">
+      <Container fixed>
         <ul>
           <li>
             <Link to="/">Home</Link>
