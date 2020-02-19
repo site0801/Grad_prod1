@@ -38,7 +38,7 @@ export const Provider = ({children}: IProps) => {
     return (  
         <LoginContext.Provider value={{ LoginState, setLoginState }}>
             <UsernameContext.Provider value={{ UsernameState, setUsernameState }}>
-                {children} // 入ってきた子要素を使う
+                {children}
             </UsernameContext.Provider>
         </LoginContext.Provider>
     )

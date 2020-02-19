@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"fmt"
 	"github.com/labstack/echo/v4"
 	"net/http"
 
@@ -53,7 +54,6 @@ func AddProblem(c echo.Context) error {
 }
 
 func GetProblem(c echo.Context) error {
-	var problem domain.Problem
 	//フロントからjsonを受け取って処理
 	param := new(InputUser)
 	if err := c.Bind(param); err != nil {
@@ -62,6 +62,7 @@ func GetProblem(c echo.Context) error {
 	}
 
 	var db = ConnectGorm()
+	db.LogMode(true)
 	defer db.Close()
 
 	////デバッグ用
@@ -69,8 +70,9 @@ func GetProblem(c echo.Context) error {
 	//print("password:" + param.Password);
 
 	////UsernameのDB取得
+	var problems []domain.Problem
+	db.Where("Status = ?", "Open").Find(&problems)
+	fmt.Println(problems)
 
-	db.Where("Status = ?", "Open").First(&problem)
-
-	return c.JSON(http.StatusOK, problem)
+	return c.JSON(http.StatusOK, problems)
 }

@@ -14,7 +14,7 @@ import AppBar from './AppBar';
 import { CssBaseline } from '@material-ui/core';
 import Login from './Login';
 import Signup from './Signup';
-import Admin from './Admin'
+import Problems from './Problem'
 import { Provider } from './Totalprovider'
 
 export default function App() {
@@ -45,9 +45,6 @@ export default function App() {
           <Route path="/problems">
             <Problems />
           </Route>
-          <Route path="/admin">
-            <Admin />
-          </Route>
           <Route path="/addproblem">
             <AddProblem />
           </Route>
@@ -72,41 +69,41 @@ function Home() {
   return <h2>Home</h2>;
 }
 
-function Problems() {
-  let match = useRouteMatch();
+// function Problems() {
+//   let match = useRouteMatch();
 
-  return (
-    <div>
-      <h2>Problems</h2>
+//   return (
+//     <div>
+//       <h2>Problems</h2>
 
-      <ul>
-        <li>
-          <Link to={`${match.url}/components`}>Components</Link>
-        </li>
-        <li>
-          <Link to={`${match.url}/props-v-state`}>
-            Props v. State
-          </Link>
-        </li>
-      </ul>
+//       <ul>
+//         <li>
+//           <Link to={`${match.url}/components`}>Components</Link>
+//         </li>
+//         <li>
+//           <Link to={`${match.url}/props-v-state`}>
+//             Props v. State
+//           </Link>
+//         </li>
+//       </ul>
 
-      {/* The Topics page has its own <Switch> with more routes
-          that build on the /topics URL path. You can think of the
-          2nd <Route> here as an "index" page for all topics, or
-          the page that is shown when no topic is selected */}
-      <Switch>
-        <Route path={`${match.path}/:problemId`}>
-          <Problem />
-        </Route>
-        <Route path={match.path}>
-          <h3>Please select a problem.</h3>
-        </Route>
-      </Switch>
-    </div>
-  );
-}
+//       {/* The Topics page has its own <Switch> with more routes
+//           that build on the /topics URL path. You can think of the
+//           2nd <Route> here as an "index" page for all topics, or
+//           the page that is shown when no topic is selected */}
+//       <Switch>
+//         <Route path={`${match.path}/:problemId`}>
+//           <Problem />
+//         </Route>
+//         <Route path={match.path}>
+//           <h3>Please select a problem.</h3>
+//         </Route>
+//       </Switch>
+//     </div>
+//   );
+// }
 
-function Problem() {
-  let { problemId } = useParams();
-  return <h3>Requested problem ID: {problemId}</h3>;
-}
+//function Problem() {
+//  let { problemId } = useParams();
+//  return <h3>Requested problem ID: {problemId}</h3>;
+//}
