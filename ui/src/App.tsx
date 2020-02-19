@@ -14,7 +14,7 @@ import AppBar from './AppBar';
 import { CssBaseline } from '@material-ui/core';
 import Login from './Login';
 import Signup from './Signup';
-import Problems from './Problem'
+import Problems from './Problems'
 import { Provider } from './Totalprovider'
 
 export default function App() {
@@ -23,23 +23,6 @@ export default function App() {
       <CssBaseline />
       <AppBar />
       <Container fixed>
-        <ul>
-          <li>
-            <Link to="/">Home</Link>
-          </li>
-          <li>
-            <Link to="/login">Login</Link>
-          </li>
-          <li>
-            <Link to="/signup">Signup</Link>
-          </li>
-          <li>
-            <Link to="/problems">Problem</Link>
-          </li>
-          <li>
-            <Link to="/addproblem">AddProblem</Link>
-          </li>
-        </ul>
         <Provider>
         <Switch>
           <Route path="/problems">
