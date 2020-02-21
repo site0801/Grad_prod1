@@ -62,6 +62,8 @@ func main() {
 	r.GET("/admin", restricted)
 	r.GET("/problems", handler.GetProblem)
 	r.POST("/addproblem", handler.AddProblem)
+	r.GET("/answers", handler.GetAnswer)
+	r.POST("/addanswer", handler.AddAnswer)
 
 	e.Logger.Fatal(e.Start(":1323"))
 }

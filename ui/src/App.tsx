@@ -17,6 +17,8 @@ import Signup from './Signup';
 import Problems from './Problems';
 import Problem from './Problem';
 import { Provider } from './Totalprovider'
+import Submit from './Submit';
+import Answers from './Answers';
 
 export default function App() {
   return (
@@ -34,6 +36,12 @@ export default function App() {
             </Route>
             <Route path="/addproblem">
               <AddProblem />
+            </Route>
+            <Route path="/submit/:id">
+              <Submit />
+            </Route>
+            <Route path="/answers">
+              <Answers />
             </Route>
             <Route path="/login">
               <Login />

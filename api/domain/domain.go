@@ -25,7 +25,8 @@ type Problem struct {
 
 type Answers struct {
 	gorm.Model
-	prob_id      uint
-	author_id    uint
-	ans_sentence string
+	Prob_Title    string
+	Prob_sentence string
+	Solver_name   string
+	Status        string
 }

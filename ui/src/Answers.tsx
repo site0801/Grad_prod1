@@ -51,10 +51,9 @@ interface Problem {
     CreatedAt: any;
     UpdatedAt: any;
     DeletedAt: any;
-    Title: string;
+    Prob_Title: string;
     Prob_sentence: string;
-    Author_name: string;
-    Category: string;
+    Solver_name: string;
     Status: string;
 }
 
@@ -63,7 +62,7 @@ interface Problems {
 }
 
 // React hooks を使いFCコンポーネントへと
-const Problems = () => {
+const Answers = () => {
     const {UsernameState} = useContext(UsernameContext);
     const [LoadState, setLoadState] = useState<boolean>(false);
     const [DataState, setDataState] = useState<Service<Problems>>({
@@ -73,7 +72,7 @@ const Problems = () => {
     // https://ja.reactjs.org/docs/hooks-reference.html#usecallback
     useEffect(() => {
         fetch(
-            "http://localhost:1323/restricted/problems",
+            "http://localhost:1323/restricted/answers",
             {
                 headers: {'Content-type':'application/json','Authorization':'Bearer '+sessionStorage.getItem("gurupen.token")},
                 method: "GET"
@@ -91,12 +90,13 @@ const Problems = () => {
     
     return (
         <TableContainer component={Paper}>
-            <h1>Problems(Ver. α)</h1>
+            <h1>Answers</h1>
             <hr></hr>
             <Table className={classes.table} aria-label="simple table">
                 <TableHead>
                 <TableRow>
                     <TableCell>Title</TableCell>
+                    <TableCell align="right">Sentence</TableCell>
                     <TableCell align="right">Author</TableCell>
                     <TableCell align="right">Status</TableCell>
                     <TableCell align="right">CreatedAt</TableCell>
@@ -109,9 +109,10 @@ const Problems = () => {
                     DataState.payload.results.map((problem) => (
                         <TableRow key={problem.ID}>
                         <TableCell component="th" scope="row">
-                            {problem.Title}
+                            No.{problem.Prob_Title}
                         </TableCell>
-                        <TableCell align="right">{problem.Author_name}</TableCell>
+                        <TableCell align="right">{problem.Prob_sentence}</TableCell>
+                        <TableCell align="right">{problem.Solver_name}</TableCell>
                         <TableCell align="right">{problem.Status}</TableCell>
                         <TableCell align="right">{problem.CreatedAt}</TableCell>
                         <TableCell align="right">{problem.UpdatedAt}</TableCell>
@@ -126,4 +127,4 @@ const Problems = () => {
     );
 }
 
-export default Problems;
+export default Answers;

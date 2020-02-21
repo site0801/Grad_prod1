@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 import {UsernameContext} from "./Totalprovider";
 import { Theme, createStyles, makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -136,7 +137,7 @@ const Problem = () => {
     
     return (
         <div className={classes.root}>
-            <h1>Add a new problem</h1>
+            <h1>Problems(Ver. β)</h1>
             <hr></hr>
             {DataState.status === 'loading' && <div>Loading...</div>}
             {DataState.status === 'loaded' &&
@@ -148,7 +149,7 @@ const Problem = () => {
                             id="panel1c-header"
                         >
                         <div className={classes.column}>
-                            <Typography className={classes.heading}>{problem.Title}</Typography>
+                            <Typography className={classes.heading}>No.{problem.ID} {problem.Title}</Typography>
                         </div>
                         <div className={classes.column}>
                             <Typography className={classes.secondaryHeading}>{problem.Author_name}</Typography>
@@ -172,10 +173,11 @@ const Problem = () => {
                         </ExpansionPanelDetails>
                         <Divider />
                         <ExpansionPanelActions>
-                        <Button size="small">Cancel</Button>
+                        <Link to={"/submit/" + problem.ID}>
                         <Button size="small" color="primary">
-                            Save
+                            Submit
                         </Button>
+                        </Link>
                         </ExpansionPanelActions>
                     </ExpansionPanel>
             ))}
