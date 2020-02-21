@@ -46,9 +46,12 @@ func AddProblem(c echo.Context) error {
 	//}
 
 	var addproblem = domain.Problem{Title: param.ProblemTitle, Prob_sentence: param.ProblemDescription, Author_name: param.ProblemAuthor, Category: param.ProblemCategory, Status: "Open"}
-	db.NewRecord(addproblem)
-	db.Create(&addproblem)
-	db.NewRecord(addproblem)
+	fmt.Println("ProblemAuthor:" + param.ProblemAuthor)
+	if param.ProblemAuthor != "" {
+		db.NewRecord(addproblem)
+		db.Create(&addproblem)
+		db.NewRecord(addproblem)
+	}
 
 	return c.JSON(http.StatusOK, map[string]string{})
 }

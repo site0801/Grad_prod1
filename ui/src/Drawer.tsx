@@ -75,7 +75,7 @@ export default function TemporaryDrawer() {
             </List>
             <Divider />
             <List>
-                {['login', 'signup'].map((text, index) => (
+                {['Login', 'SignUp'].map((text, index) => (
                     <Link to={"../" + text}>
                         <ListItem button key={text}>
                             <ListItemText primary={text} />

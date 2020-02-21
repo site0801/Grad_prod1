@@ -19,31 +19,32 @@ import { Provider } from './Totalprovider'
 
 export default function App() {
   return (
-    <Router>
-      <CssBaseline />
-      <AppBar />
-      <Container fixed>
-        <Provider>
-        <Switch>
-          <Route path="/problems">
-            <Problems />
-          </Route>
-          <Route path="/addproblem">
-            <AddProblem />
-          </Route>
-          <Route path="/login">
-            <Login />
-          </Route>
-          <Route path="/signup">
-            <Signup />
-          </Route>
-          <Route path="/">
-            <Home />
-          </Route>
-        </Switch>
-        </Provider>
-      </Container>
-    </Router>
+    <Provider>
+      <Router>
+        <CssBaseline />
+        <AppBar />
+        <Container fixed>
+
+          <Switch>
+            <Route path="/problems">
+              <Problems />
+            </Route>
+            <Route path="/addproblem">
+              <AddProblem />
+            </Route>
+            <Route path="/login">
+              <Login />
+            </Route>
+            <Route path="/signup">
+              <Signup />
+            </Route>
+            <Route path="/">
+              <Home />
+            </Route>
+          </Switch>
+        </Container>
+      </Router>
+    </Provider>
   );
 }
 

@@ -24,14 +24,15 @@ const Content = styled.div`
 const AddProblem = () => {
 
     // Userの構造体が増えるたびにStateが増えるのはクソなのでUserObjectにまとめる
-    const {UsernameState} = useContext(UsernameContext);
-    const [newProblem, setNewProblem] = useState<Problem>({ title: '', prob_sentence: '', author_name: UsernameState, category: ''})
+    const {UsernameState} = useContext(UsernameContext)
+    const [newProblem, setNewProblem] = useState<Problem>({ title: '', prob_sentence: '', author_name: '', category: ''})
     // memorizeします
     // https://ja.reactjs.org/docs/hooks-reference.html#usecallback
     const postDataHandler = useCallback(
         // async/await構文を用います
         async () => {
             // axiosでも問題ないです
+            setNewProblem(x => ({ ...x, author_name: UsernameState }));
             const response = await fetch(
                 "http://localhost:1323/restricted/addproblem",
                 {
