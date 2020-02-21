@@ -2,6 +2,8 @@ import React, { useState, useCallback, useContext } from 'react';
 import styled from "styled-components";
 //import jwt_decode from 'jwt-decode';
 import {UsernameContext} from "./Totalprovider";
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField'
 
 interface Problem {
     title: string;
@@ -83,15 +85,18 @@ const AddProblem = () => {
             <hr></hr>
             <Content className="col-lg-8 offset-lg-2">
                 <div className="form-group">
-                    Problem Name: <input type="text" className="form-control" value={newProblem.title} onChange={changeProblemTitleHandler}/>
+                <TextField className="form-control" value={newProblem.title} onChange={changeProblemTitleHandler} id="standard-basic" label="Problem Name" />
                 </div>
                 <div className="form-group">
-                    Problem Description: <input type="text" className="form-control" value={newProblem.prob_sentence} onChange={changeProblemDescriptionHandler}/>
+                <TextField  className="form-control" value={newProblem.prob_sentence} onChange={changeProblemDescriptionHandler} id="standard-basic" label="Problem Description" />
                 </div>
                 <div className="form-group">
-                    Category: <input type="text" className="form-control" value={newProblem.category} onChange={changeProblemCategoryHandler}/>
+                <TextField className="form-control" value={newProblem.category} onChange={changeProblemCategoryHandler} id="standard-basic" label="Category" />
+                    
                 </div>
-                <button className="btn btn-success btn-block" onClick={postDataHandler}><i className="fa fa-plus"></i> Add Problem</button>
+                <br/>
+                <Button className="btn btn-success btn-block" onClick={postDataHandler} variant="contained" color="primary"><i className="fa fa-plus"></i>Add problem</Button>
+                
             </Content>
         </Host>
     );

@@ -1,6 +1,8 @@
 import React, { useState, useCallback, useContext, useEffect} from 'react';
 import styled from "styled-components";
 import {LoginContext, UsernameContext} from "./Totalprovider";
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
 
 interface User {
     username: string;
@@ -101,12 +103,14 @@ const Login = () => {
             <hr></hr>
             <Content className="col-lg-8 offset-lg-2">
                 <div className="form-group">
-                    User Name: <input type="text" className="form-control" value={newLoginStatus.username} onChange={changeUserNameHandler}/>
+               
+                <TextField className="form-control" value={newLoginStatus.username} onChange={changeUserNameHandler} id="standard-basic" label="Username" />
                 </div>
                 <div className="form-group">
-                    Password: <input type="text" className="form-control" value={newLoginStatus.password} onChange={changePasswordHandler}/>
+                <TextField className="form-control" value={newLoginStatus.password} onChange={changePasswordHandler} id="standard-basic" label="Password" />   
                 </div>
-                <button className="btn btn-success btn-block" onClick={postDataHandler}><i className="fa fa-plus"></i> Login</button>
+                <br/>
+                <Button className="btn btn-success btn-block" onClick={postDataHandler} variant="contained" color="primary"><i className="fa fa-plus"></i> Login</Button>       
             </Content>
         </Host>
     );
