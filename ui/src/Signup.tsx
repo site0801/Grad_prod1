@@ -1,5 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import styled from "styled-components";
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
 
 interface User {
     username: string;
@@ -70,12 +72,14 @@ const Signup = () => {
             <hr></hr>
             <Content className="col-lg-8 offset-lg-2">
                 <div className="form-group">
-                    User Name: <input type="text" className="form-control" value={newSignupStatus.username} onChange={changeUserNameHandler}/>
+                
+                <TextField className="form-control" value={newSignupStatus.username} onChange={changeUserNameHandler} id="standard-basic" label="Username" />
                 </div>
                 <div className="form-group">
-                    Password: <input type="text" className="form-control" value={newSignupStatus.password} onChange={changePasswordHandler}/>
+                <TextField className="form-control" value={newSignupStatus.password} onChange={changePasswordHandler} id="standard-basic" label="password" />
                 </div>
-                <button className="btn btn-success btn-block" onClick={postDataHandler}><i className="fa fa-plus"></i> Signup</button>
+                <br/>
+                <Button className="btn btn-success btn-block" onClick={postDataHandler} variant="contained" color="primary"><i className="fa fa-plus"></i>Signup</Button>
             </Content>
         </Host>
     );
