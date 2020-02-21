@@ -22,21 +22,22 @@ const Content = styled.div`
 
 // React hooks を使いFCコンポーネントへと
 const AddProblem = () => {
-
+    let UsernameState = "";
     // Userの構造体が増えるたびにStateが増えるのはクソなのでUserObjectにまとめる
-    const {UsernameState} = useContext(UsernameContext)
-    const [newProblem, setNewProblem] = useState<Problem>({ title: '', prob_sentence: '', author_name: '', category: ''})
+    if (window.sessionStorage.getItem('gurupen.username') != null){
+        UsernameState = window.sessionStorage.getItem('gurupen.username')!
+    }
+    const [newProblem, setNewProblem] = useState<Problem>({ title: '', prob_sentence: '', author_name: UsernameState, category: ''})
     // memorizeします
     // https://ja.reactjs.org/docs/hooks-reference.html#usecallback
     const postDataHandler = useCallback(
         // async/await構文を用います
         async () => {
             // axiosでも問題ないです
-            setNewProblem(x => ({ ...x, author_name: UsernameState }));
             const response = await fetch(
                 "http://localhost:1323/restricted/addproblem",
                 {
-                    headers: {'Content-type':'application/json', 'Authorization':' Bearer '+sessionStorage.getItem("gurupen")},
+                    headers: {'Content-type':'application/json', 'Authorization':' Bearer '+sessionStorage.getItem("gurupen.token")},
                     method: "POST",
                     body: JSON.stringify(newProblem)
                 }

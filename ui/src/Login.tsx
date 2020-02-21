@@ -1,10 +1,15 @@
-import React, { useState, useCallback, useContext} from 'react';
+import React, { useState, useCallback, useContext, useEffect} from 'react';
 import styled from "styled-components";
 import {LoginContext, UsernameContext} from "./Totalprovider";
 
 interface User {
     username: string;
     password: string;
+}
+
+interface LocalLogin {
+    state: boolean;
+    username: string;
 }
 
 // Componentのstyleを直接いじるのは、JSでどうしても動的に変化させたい時だけと言う信念
@@ -23,6 +28,7 @@ const Login = () => {
     // Userの構造体が増えるたびにStateが増えるのはクソなのでUserObjectにまとめる
     const [newLoginStatus, setNewLoginStatus] = useState<User>({ username: '', password: '' })
     const {UsernameState, setUsernameState} = useContext(UsernameContext);
+    const [LocalLoginState, setLocalLoginState] = useState<LocalLogin>({state: false, username: ''})
     const {LoginState, setLoginState} = useContext(LoginContext);
 
     // memorizeします
@@ -39,12 +45,13 @@ const Login = () => {
                     body: JSON.stringify(newLoginStatus)
                 }
             ).then(response => response.json())
-            .then(data => window.sessionStorage.setItem('gurupen', data.token)) // then で data にアクセス
+            .then(data => window.sessionStorage.setItem('gurupen.token', data.token)) // then で data にアクセス
             .then(() => setLoginState(true))
+            .then(() => window.sessionStorage.setItem('gurupen.loginstate', "true"))
+            .then(() => window.sessionStorage.setItem('gurupen.username', newLoginStatus.username))
             .then(() => alert("Successfully Authentication!"))
-            .then(() => alert(LoginState))
-            .then(() => setUsernameState(newLoginStatus.username))
             .catch(error => console.error(error))
+            .catch(() => alert("Failed Authentication."))
 
             
             //setUsernameState(newLoginStatus.username);
@@ -52,7 +59,7 @@ const Login = () => {
             console.log(UsernameState);
             console.log("newLoginStatus.username: " + newLoginStatus.username);
             console.log("UsernameState: " + UsernameState);
-            console.log(window.sessionStorage.getItem('gurupen'));
+            console.log(window.sessionStorage.getItem('gurupen.token'));
             // if (window.sessionStorage.getItem('gurupen') != null){
             //     setLoginState(() => true);
             //     alert("Successfully Authentication!");
@@ -60,8 +67,14 @@ const Login = () => {
             // }
         },
         // newUserをdependenciesに追加することをわすれずに！
-        [newLoginStatus]
+        [newLoginStatus, UsernameState, LoginState]
     );
+
+    useEffect(() => {
+        console.log('first')
+        //setLoginState(LocalLoginState.state)
+        console.log(LoginState)
+    }, [])
 
     // memorizeします
     // https://ja.reactjs.org/docs/hooks-reference.html#usecallback
