@@ -65,7 +65,7 @@ export default function TemporaryDrawer() {
             onKeyDown={toggleDrawer(side, false)}
         >
             <List>
-                {['Home', 'Problems', 'AddProblem'].map((text, index) => (
+                {['Home', 'Problems','Problem', 'AddProblem'].map((text, index) => (
                     <Link to={"../" + text}>
                         <ListItem button key={text}>
                             <ListItemText primary={text} />

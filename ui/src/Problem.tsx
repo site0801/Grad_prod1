@@ -120,7 +120,7 @@ const Problem = () => {
         fetch(
             "http://localhost:1323/restricted/problems",
             {
-                headers: {'Content-type':'application/json','Authorization':'Bearer '+sessionStorage.getItem("gurupen")},
+                headers: {'Content-type':'application/json','Authorization':'Bearer '+sessionStorage.getItem("gurupen.token")},
                 method: "GET"
             }
         ).then((response) => response.json())

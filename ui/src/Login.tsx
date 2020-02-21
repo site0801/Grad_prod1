@@ -103,7 +103,6 @@ const Login = () => {
             <hr></hr>
             <Content className="col-lg-8 offset-lg-2">
                 <div className="form-group">
-               
                 <TextField className="form-control" value={newLoginStatus.username} onChange={changeUserNameHandler} id="standard-basic" label="Username" />
                 </div>
                 <div className="form-group">
