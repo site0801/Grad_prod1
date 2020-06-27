@@ -1,7 +1,7 @@
 version: "3"
 services:
   ui:
-    build: ./docker/ui
+    build: ./ui
     volumes:
       - ./ui:/var/www/html/
     working_dir: /var/www/html/ui
@@ -22,10 +22,11 @@ services:
       - "3306:3306"
   api:
     image: alpine:3.7
-    #build: ./docker/api
     volumes:
-      - ./api:/go/src/gurupen_api
-    ports: 
+      - ./api:/go/src/api
+    working_dir: /go/src/api/bin
+    command: 
+      - ./gurupen
   nginx:
     build: ./docker/nginx
     ports:
