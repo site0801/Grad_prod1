@@ -17,7 +17,7 @@ func InitGorm() {
 
 func ConnectGorm() *gorm.DB {
 	DBMS := "mysql"
-	DBUser := "go"
+	DBUser := "gurupen"
 	DBPass := "gurupen"
 	DBProtocol := "dbserver:3306"
 	DBName := "gurupen"
