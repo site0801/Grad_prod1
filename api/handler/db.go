@@ -19,7 +19,7 @@ func ConnectGorm() *gorm.DB {
 	DBMS := "mysql"
 	DBUser := "go"
 	DBPass := "gurupen"
-	DBProtocol := ""
+	DBProtocol := "(localhost)"
 	DBName := "gurupen"
 	DBOption := "charset=utf8&parseTime=True&loc=Local"
 

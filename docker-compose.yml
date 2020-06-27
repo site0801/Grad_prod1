@@ -16,6 +16,8 @@ services:
       MYSQL_DATABASE: gurupen
       MYSQL_USER: gurupen
       MYSQL_PASSWORD: gurupen
+      DB_PING_USER: gurupen
+      DB_PING_USER_PASSWORD: gurupen
     volumes:
       - ./db:/var/lib/mysql
     ports:
@@ -24,9 +26,12 @@ services:
     image: alpine:3.7
     volumes:
       - ./api:/go/src/api
+    depends_on:
+      - db
     working_dir: /go/src/api/bin
-    command: 
-      - ./gurupen
+    entrypoint: "/bin/sh -c 'chmod 777 ./start.sh && ./start.sh'"
+    ports:
+      - "1323:1323"
   nginx:
     build: ./docker/nginx
     ports:
