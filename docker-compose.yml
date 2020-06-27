@@ -14,14 +14,18 @@ services:
       MYSQL_ROOT_PASSWORD: go
       MYSQL_PASSWORD: gurupen
       MYSQL_DATABASE: gurupen
+      MYSQL_USER: gurupen
+      MYSQL_PASSWORD: gurupen
     volumes:
       - ./db:/var/lib/mysql
     ports:
       - "3306:3306"
   api:
-    build: ./docker/api
+    image: alpine:3.7
+    #build: ./docker/api
     volumes:
       - ./api:/go/src/gurupen_api
+    ports: 
   nginx:
     build: ./docker/nginx
     ports:
