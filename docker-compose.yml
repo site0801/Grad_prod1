@@ -4,13 +4,12 @@ services:
     build: ./docker/ui
     volumes:
       - ./ui:/var/www/html/
-    working_dir: /var/www/html/qpn
+    working_dir: /var/www/html/ui
     command: yarn start
     ports:
       - "3000:3000"
   db:
     image: mariadb
-    restart: always
     environment:
       MYSQL_ROOT_PASSWORD: go
       MYSQL_PASSWORD: gurupen
@@ -22,7 +21,7 @@ services:
   api:
     build: ./docker/api
     volumes:
-      - ./api:/go/src/qpn
+      - ./api:/go/src/gurupen_api
   nginx:
     build: ./docker/nginx
     ports:

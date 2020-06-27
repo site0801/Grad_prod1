@@ -1,8 +1,8 @@
 FROM golang:1.10.2-alpine3.7
 
-COPY main.go /go/src/qpn/
+COPY main.go /go/src/
 
-WORKDIR /go/src/qpn/
+WORKDIR /go/src/gurupen/
 
 RUN apk update \
   && apk add --no-cache git \
