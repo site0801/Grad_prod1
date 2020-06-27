@@ -2,8 +2,9 @@ package handler
 
 import (
 	"fmt"
-	"github.com/labstack/echo/v4"
 	"net/http"
+
+	"github.com/labstack/echo/v4"
 
 	_ "github.com/go-sql-driver/mysql"
 	_ "github.com/jinzhu/gorm"
@@ -34,10 +35,6 @@ func AddProblem(c echo.Context) error {
 	db.LogMode(true)
 	defer db.Close()
 
-	////デバッグ用
-	//print("username:" + param.Username);
-	//print("password:" + param.Password);
-
 	////UsernameのDB取得
 	//var response = db.Where("name = ?", param.Username).First(&user)
 	//fmt.Println(response)
@@ -67,10 +64,6 @@ func GetProblem(c echo.Context) error {
 	var db = ConnectGorm()
 	db.LogMode(true)
 	defer db.Close()
-
-	////デバッグ用
-	//print("username:" + param.Username);
-	//print("password:" + param.Password);
 
 	////UsernameのDB取得
 	var problems []domain.Problem

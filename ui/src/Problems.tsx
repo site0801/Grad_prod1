@@ -1,6 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
-import styled from "styled-components";
-import {UsernameContext} from "./Totalprovider";
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -9,16 +7,6 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-
-// Componentのstyleを直接いじるのは、JSでどうしても動的に変化させたい時だけと言う信念
-// Styled-Componentを使います
-// const Host = styled.div`
-//     margin-top: 10px;
-// `;
-
-// const Content = styled.div`
-//     margin-top:'30px';
-// `;
 
 const useStyles = makeStyles({
     table: {
@@ -62,15 +50,12 @@ interface Problems {
     results: Problem[];
 }
 
-// React hooks を使いFCコンポーネントへと
 const Problems = () => {
-    const {UsernameState} = useContext(UsernameContext);
-    const [LoadState, setLoadState] = useState<boolean>(false);
+//  const {UsernameState} = useContext(UsernameContext);
+//  const [LoadState, setLoadState] = useState<boolean>(false);
     const [DataState, setDataState] = useState<Service<Problems>>({
         status: 'loading'
     });
-    // memorizeします
-    // https://ja.reactjs.org/docs/hooks-reference.html#usecallback
     useEffect(() => {
         fetch(
             "http://localhost:1323/restricted/problems",
@@ -84,7 +69,7 @@ const Problems = () => {
             console.error(error);
         });
         console.log(DataState);
-    },[]);
+    },[DataState]);
     console.log(DataState);
 
     const classes = useStyles();

@@ -8,8 +8,6 @@ interface User {
     password: string;
 }
 
-// Componentのstyleを直接いじるのは、JSでどうしても動的に変化させたい時だけと言う信念
-// Styled-Componentを使います
 const Host = styled.div`
     margin-top: 10px;
 `;
@@ -18,18 +16,12 @@ const Content = styled.div`
     margin-top:'30px';
 `;
 
-// React hooks を使いFCコンポーネントへと
 const Signup = () => {
 
-    // Userの構造体が増えるたびにStateが増えるのはクソなのでUserObjectにまとめる
     const [newSignupStatus, setNewSignupStatus] = useState<User>({ username: '', password: '' })
-    
-    // memorizeします
-    // https://ja.reactjs.org/docs/hooks-reference.html#usecallback
+
     const postDataHandler = useCallback(
-        // async/await構文を用います
         async () => {
-            // axiosでも問題ないです
             const response = await fetch(
                 "http://localhost:1323/signup",
                 {
@@ -43,18 +35,14 @@ const Signup = () => {
             alert("Successfully Authentication!");
             //window.location.reload();
         },
-        // newUserをdependenciesに追加することをわすれずに！
         [newSignupStatus]
     );
 
-    // memorizeします
-    // https://ja.reactjs.org/docs/hooks-reference.html#usecallback
     const changeUserNameHandler = useCallback(
         (e: React.ChangeEvent<HTMLInputElement>) => {
             e.persist();
             setNewSignupStatus(x => ({ ...x, username: e.target.value }));
         },
-        // React は再レンダー間で dispatch 関数の同一性が保たれ、変化しないことを保証します。従って useEffect や useCallback の依存リストにはこの関数を含めないでも構いません。(公式より)
         [],
     );
 

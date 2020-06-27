@@ -12,9 +12,9 @@ services:
     image: mariadb
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: p4ssw0rd
-      MYSQL_PASSWORD: p4ssw0rd
-      MYSQL_DATABASE: qpn
+      MYSQL_ROOT_PASSWORD: go
+      MYSQL_PASSWORD: gurupen
+      MYSQL_DATABASE: gurupen
     volumes:
       - ./db:/var/lib/mysql
     ports:

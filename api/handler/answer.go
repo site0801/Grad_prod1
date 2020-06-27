@@ -2,8 +2,9 @@ package handler
 
 import (
 	"fmt"
-	"github.com/labstack/echo/v4"
 	"net/http"
+
+	"github.com/labstack/echo/v4"
 
 	_ "github.com/go-sql-driver/mysql"
 	_ "github.com/jinzhu/gorm"
@@ -33,17 +34,6 @@ func AddAnswer(c echo.Context) error {
 	db.LogMode(true)
 	defer db.Close()
 
-	////デバッグ用
-	//print("username:" + param.Username);
-	//print("password:" + param.Password);
-
-	////UsernameのDB取得
-	//var response = db.Where("name = ?", param.Username).First(&user)
-	//fmt.Println(response)
-	//if response != nil {
-	//	return echo.NewHTTPError(http.StatusUnauthorized, "The credentials entered are invalid.")
-	//}
-
 	var addanswer = domain.Answers{Prob_Title: param.ProblemTitle, Prob_sentence: param.ProblemDescription, Solver_name: param.ProblemSolver, Status: "Open"}
 	fmt.Println("ProblemSolver:" + param.ProblemSolver)
 
@@ -65,10 +55,6 @@ func GetAnswer(c echo.Context) error {
 	var db = ConnectGorm()
 	db.LogMode(true)
 	defer db.Close()
-
-	////デバッグ用
-	//print("username:" + param.Username);
-	//print("password:" + param.Password);
 
 	////UsernameのDB取得
 	var answers []domain.Answers

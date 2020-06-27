@@ -34,10 +34,6 @@ func SignUp(c echo.Context) error {
 	db.LogMode(true)
 	defer db.Close()
 
-	////デバッグ用
-	//print("username:" + param.Username);
-	//print("password:" + param.Password);
-
 	////UsernameのDB取得
 	var response = db.Where("name = ?", param.Username).First(&user)
 	fmt.Println(response)
@@ -64,10 +60,6 @@ func Login(c echo.Context) error {
 
 	var db = ConnectGorm()
 	defer db.Close()
-
-	////デバッグ用
-	//print("username:" + param.Username);
-	//print("password:" + param.Password);
 
 	////UsernameのDB取得
 

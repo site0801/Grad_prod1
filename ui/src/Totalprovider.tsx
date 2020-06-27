@@ -27,10 +27,8 @@ export const LoginProvider = LoginContext.Provider
 
 interface IProps {
     children: React.ReactNode;
-    // any other props that come into the component
 }
 
-// ラップされた子要素全てが、children に props に入ってくる
 export const Provider = ({children}: IProps) => {
     const [UsernameState, setUsernameState] = React.useState<string>('');
     const [LoginState, setLoginState] = React.useState<boolean>(false);

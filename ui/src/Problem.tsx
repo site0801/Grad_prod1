@@ -1,15 +1,6 @@
-import React, { useState, useEffect, useContext } from 'react';
-import styled from "styled-components";
+import React, { useState, useEffect } from 'react';
 import { Link } from "react-router-dom";
-import {UsernameContext} from "./Totalprovider";
 import { Theme, createStyles, makeStyles } from '@material-ui/core/styles';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
 import clsx from 'clsx';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
@@ -17,15 +8,9 @@ import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelActions from '@material-ui/core/ExpansionPanelActions';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import Chip from '@material-ui/core/Chip';
 import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
 
-// Componentのstyleを直接いじるのは、JSでどうしても動的に変化させたい時だけと言う信念
-// Styled-Componentを使います
-const Host = styled.div`
-    margin-top: 10px;
-`;
 
 // const Content = styled.div`
 //     margin-top:'30px';
@@ -108,15 +93,12 @@ interface Problems {
     results: Problem[];
 }
 
-// React hooks を使いFCコンポーネントへと
 const Problem = () => {
-    const {UsernameState} = useContext(UsernameContext);
-    const [LoadState, setLoadState] = useState<boolean>(false);
+//    const {UsernameState} = useContext(UsernameContext);
+//    const [LoadState, setLoadState] = useState<boolean>(false);
     const [DataState, setDataState] = useState<Service<Problems>>({
         status: 'loading'
     });
-    // memorizeします
-    // https://ja.reactjs.org/docs/hooks-reference.html#usecallback
     useEffect(() => {
         fetch(
             "http://localhost:1323/restricted/problems",
@@ -130,7 +112,7 @@ const Problem = () => {
             console.error(error);
         });
         console.log(DataState);
-    },[]);
+    },[DataState]);
     console.log(DataState);
 
     const classes = useStyles();
