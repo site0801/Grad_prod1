@@ -28,7 +28,7 @@ services:
       - db
     working_dir: /go/src/api/bin
     links:
-      - dbserver
+      - db
     entrypoint: "/bin/sh -c 'chmod 777 ./start.sh && ./start.sh'"
     ports:
       - "1323:1323"
