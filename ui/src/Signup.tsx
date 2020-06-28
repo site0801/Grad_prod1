@@ -23,7 +23,7 @@ const Signup = () => {
     const postDataHandler = useCallback(
         async () => {
             const response = await fetch(
-                "http://localhost:1323/signup",
+                "http://192.168.1.104:1234/signup",
                 {
                     headers: {'Content-type':'application/json'},
                     method: "POST",

@@ -29,7 +29,7 @@ const AddProblem = () => {
     const postDataHandler = useCallback(
         async () => {
             const response = await fetch(
-                "http://localhost:1323/restricted/addproblem",
+                "http://127.0.0.1:1234/restricted/addproblem",
                 {
                     headers: {'Content-type':'application/json', 'Authorization':' Bearer '+sessionStorage.getItem("gurupen.token")},
                     method: "POST",

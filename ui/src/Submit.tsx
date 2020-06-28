@@ -36,7 +36,7 @@ const Submit = () => {
     const postDataHandler = useCallback(
         async () => {
             const response = await fetch(
-                "http://localhost:1323/restricted/addanswer",
+                "http://127.0.0.1:1234/restricted/addanswer",
                 {
                     headers: {'Content-type':'application/json', 'Authorization':' Bearer '+sessionStorage.getItem("gurupen.token")},
                     method: "POST",

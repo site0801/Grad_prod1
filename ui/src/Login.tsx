@@ -32,7 +32,7 @@ const Login = () => {
     const postDataHandler = useCallback(
         async () => {
             const response = await fetch(
-                "http://localhost:1323/login",
+                "http://127.0.0.1:1234/login",
                 {
                     headers: {'Content-type':'application/json'},
                     method: "POST",

@@ -58,7 +58,7 @@ const Problems = () => {
     });
     useEffect(() => {
         fetch(
-            "http://localhost:1323/restricted/problems",
+            "http://127.0.0.1:1234/restricted/problems",
             {
                 headers: {'Content-type':'application/json','Authorization':'Bearer '+sessionStorage.getItem("gurupen.token")},
                 method: "GET"

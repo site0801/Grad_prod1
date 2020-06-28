@@ -1,11 +1,11 @@
 version: "3"
 services:
   ui:
-    build: ./ui
+    image: node:12-alpine
     volumes:
       - ./ui:/var/www/html/
     working_dir: /var/www/html/ui
-    command: yarn start
+    command: "/bin/sh -c 'yarn install && yarn start'"
     ports:
       - "3000:3000"
   db:

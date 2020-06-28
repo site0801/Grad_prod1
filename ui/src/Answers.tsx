@@ -57,7 +57,7 @@ const Answers = () => {
     });
     useEffect(() => {
         fetch(
-            "http://localhost:1323/restricted/answers",
+            "http://127.0.0.1:1234/restricted/answers",
             {
                 headers: {'Content-type':'application/json','Authorization':'Bearer '+sessionStorage.getItem("gurupen.token")},
                 method: "GET"
