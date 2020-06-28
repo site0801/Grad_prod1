@@ -19,7 +19,6 @@ services:
       - ./db:/var/lib/mysql
     ports:
       - "3306:3306"
-    hostname: dbserver
   api:
     image: alpine:3.7
     volumes:
@@ -27,9 +26,7 @@ services:
     depends_on:
       - db
     working_dir: /go/src/api/bin
-    links:
-      - db
-    entrypoint: "/bin/sh -c 'chmod 777 ./start.sh && ./start.sh'"
+    entrypoint: "/bin/sh -c 'chmod 777 ./start.sh && chmod 777 ./gurupen && ./start.sh'"
     ports:
       - "1323:1323"
   nginx:
